@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+	<style>
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		input {
+			margin: 10px;
+			padding: 5px;
+			width: 250px;
+		}
+		button {
+			margin: 10px;
+			padding: 5px 20px;
+			border-radius: 5px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<h1>Login Page</h1>
+	<form>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username">
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password">
+		<button type="button" onclick="login()">Login</button>
+		<button type="button" onclick="createAccount()">Create Account</button>
+	</form>
+	<script>
+		function login() {
+			const username = document.getElementById("username").value;
+			const password = document.getElementById("password").value;
+
+			// check if the account exists in local storage
+			const userData = localStorage.getItem(username);
+			if (!userData) {
+				alert("Invalid username or password.");
+				return;
+			}
+			
+			// check if the password matches the stored password
+			const user = JSON.parse(userData);
+			if (password === user.password) {
+				const welcomeMessage = "Welcome, " + user.username + "!";
+				alert(welcomeMessage);
+				// redirect user to desired page
+				window.location.href = "https://www.gamingbee.com/games/math-colors/index.html?lang=n";
+			} else {
+				alert("Invalid username or password.");
+			}
+		}
+		
+		function createAccount() {
+			const username = document.getElementById("username").value;
+			const password = document.getElementById("password").value;
+			
+			// check if the username is already taken
+			if (localStorage.getItem(username)) {
+				alert("Username already taken.");
+				return;
+			}
+			
+			// create a new user object with the username and password
+			const user = {username: username, password: password};
+			
+			// save the user object in local storage
+			localStorage.setItem(username, JSON.stringify(user));
+			console.log(localStorage.getItem(username));
+			
+			alert("Account created successfully. Now you can try logging in");
+		}
+	</script>
+</body>
+</html>
